@@ -48,11 +48,22 @@ export default function BarPage() {
       }
     };
 
+    const handleVisibility = () => {
+      if (document.hidden) {
+        audio.pause();
+      } else if (!audio.muted) {
+        audio.play().catch(() => {});
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+
     // Delay until after entrance animation settles
     const t = setTimeout(tryPlay, 1400);
 
     return () => {
       clearTimeout(t);
+      document.removeEventListener('visibilitychange', handleVisibility);
       audio.pause();
       audio.src = '';
     };
