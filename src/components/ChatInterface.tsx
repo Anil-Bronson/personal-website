@@ -121,6 +121,17 @@ export default function ChatInterface({ activeBartender, onBartenderChange, auto
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className={styles.messages} ref={messagesRef}>
+              {messages.length === 0 && !streaming && (
+                <motion.div
+                  className={styles.emptyHint}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                >
+                  Ask me anything about Anil.
+                </motion.div>
+              )}
               {messages.map((msg, i) => (
                 <motion.div
                   key={i}

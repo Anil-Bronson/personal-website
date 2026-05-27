@@ -73,6 +73,17 @@
   50% { opacity: 0; }
 }
 
+.emptyHint {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--amber-dim);
+  text-align: center;
+  padding: var(--space-md) 0;
+  letter-spacing: 0.03em;
+}
+
 .thinking {
   color: var(--amber-dim) !important;
   font-style: italic;
