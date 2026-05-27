@@ -6,7 +6,7 @@ export const about = {
   email: 'anilbronson12@gmail.com',
   linkedin: 'https://linkedin.com/in/anilbronson',
   github: 'https://github.com/anil-bronson',
-  bio: 'I work in the pipeline between creative vision and digital reality — managing the technical infrastructure that lets artists build worlds. I automate what should be automated, triage what can\'t wait, and write code that makes complex systems legible.',
+  bio: "I'm Anil, currently a full-time Production Services Technician at Sony Pictures Imageworks. I'm passionate about everything in the coding space, especially the rapid advancements in AI and agentic development. I hold myself to a high standard and love collaborating on projects that I think will have a real impact on our future.",
   skills: {
     Languages: ['Python', 'TypeScript', 'JavaScript', 'Java', 'C++'],
     'Frameworks': ['Node.js', 'Next.js', 'React', 'Tailwind CSS', 'Prisma'],
