@@ -1,26 +1,68 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-void: oklch(6% 0.010 45);
+  --bg-deep: oklch(9% 0.012 40);
+  --bg-mahogany: oklch(13% 0.020 35);
+  --wood-dark: oklch(17% 0.024 33);
+  --wood-medium: oklch(23% 0.028 37);
+  --wood-light: oklch(30% 0.032 41);
+
+  --amber-glow: oklch(68% 0.14 57);
+  --amber-bright: oklch(75% 0.16 54);
+  --amber-pale: oklch(83% 0.11 64);
+  --amber-muted: oklch(50% 0.09 52);
+  --amber-dim: oklch(38% 0.07 48);
+
+  --text-primary: oklch(87% 0.016 60);
+  --text-secondary: oklch(62% 0.017 53);
+  --text-muted: oklch(42% 0.012 48);
+  --text-ghost: oklch(26% 0.009 44);
+
+  --font-display: var(--font-display, 'Georgia', serif);
+  --font-body: var(--font-body, 'Georgia', serif);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.panel-open {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -1,0 +1,219 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageArea {
+  overflow: hidden;
+}
+
+.messages {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: var(--space-md) var(--space-xl) var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  scrollbar-width: none;
+}
+.messages::-webkit-scrollbar { display: none; }
+
+.message {
+  max-width: 65ch;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bartenderMsg {
+  align-self: flex-start;
+}
+
+.userMsg {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.msgName {
+  font-family: var(--font-display);
+  font-size: 0.52rem;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  color: var(--amber-muted);
+  text-transform: uppercase;
+}
+
+.msgText {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.userMsg .msgText {
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+.cursor {
+  display: inline-block;
+  width: 6px;
+  height: 0.85em;
+  background: var(--amber-muted);
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 0.9s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.thinking {
+  color: var(--amber-dim) !important;
+  font-style: italic;
+}
+
+.thinkingDots {
+  display: inline-flex;
+  gap: 1px;
+  margin-left: 1px;
+}
+
+.thinkingDots span {
+  animation: dotPulse 1.4s ease-in-out infinite;
+  opacity: 0;
+}
+
+.thinkingDots span:nth-child(1) { animation-delay: 0s; }
+.thinkingDots span:nth-child(2) { animation-delay: 0.22s; }
+.thinkingDots span:nth-child(3) { animation-delay: 0.44s; }
+
+@keyframes dotPulse {
+  0%, 60%, 100% { opacity: 0; }
+  30% { opacity: 1; }
+}
+
+/* ── Input bar ─────────────────────────────────────────── */
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl) var(--space-lg);
+  background: linear-gradient(
+    to top,
+    oklch(8% 0.012 36 / 0.95) 0%,
+    oklch(8% 0.012 36 / 0.80) 70%,
+    transparent 100%
+  );
+  backdrop-filter: blur(4px);
+}
+
+.bartenderPicker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.pickerBtn {
+  background: none;
+  border: 1px solid oklch(22% 0.022 38);
+  font-family: var(--font-display);
+  font-size: 0.52rem;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  text-transform: uppercase;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.pickerBtn:hover {
+  color: var(--text-secondary);
+  border-color: oklch(32% 0.030 40);
+}
+
+.pickerActive {
+  color: var(--amber-muted) !important;
+  border-color: var(--amber-dim) !important;
+}
+
+.inputWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: oklch(12% 0.018 37);
+  border: 1px solid oklch(22% 0.024 38);
+  transition: border-color 0.3s;
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--amber-dim);
+}
+
+.input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.input::placeholder {
+  color: var(--text-ghost);
+  font-style: italic;
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sendBtn {
+  background: none;
+  border: none;
+  border-left: 1px solid oklch(20% 0.022 37);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-ghost);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.25s;
+  line-height: 1;
+}
+
+.sendBtn:not(:disabled):hover {
+  color: var(--amber-muted);
+}
+
+.sendBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .inputBar {
+    padding: var(--space-sm) var(--space-md) var(--space-md);
+    gap: var(--space-sm);
+  }
+  .bartenderPicker {
+    flex-direction: row;
+  }
+  .messages {
+    padding: var(--space-sm) var(--space-md);
+    max-height: 160px;
+  }
+  .message {
+    max-width: 90%;
+  }
+}
