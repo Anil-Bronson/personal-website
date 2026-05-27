@@ -24,7 +24,7 @@ export default function AboutPanel({ onClose }: { onClose: () => void }) {
         <div className={styles.panelHeader}>
           <div>
             <div className={styles.panelTitle}>About</div>
-            <div className={styles.panelSubtitle}>the person behind the pipeline</div>
+            <div className={styles.panelSubtitle}>Get to know me a bit better</div>
           </div>
           <button className={styles.closeBtn} onClick={onClose}>close</button>
         </div>
@@ -73,7 +73,8 @@ export default function AboutPanel({ onClose }: { onClose: () => void }) {
               { label: 'LinkedIn', value: 'linkedin.com/in/anilbronson', href: about.linkedin },
               { label: 'GitHub', value: 'github.com/anil-bronson', href: about.github },
               { label: 'Location', value: about.location },
-            ].map(({ label, value, href }) => (
+              { label: 'Resume', value: 'Download PDF', href: '/resume.pdf', download: true },
+            ].map(({ label, value, href, download }) => (
               <div key={label} style={{ display: 'flex', gap: 'var(--space-lg)', alignItems: 'baseline' }}>
                 <span style={{
                   fontFamily: 'var(--font-display)',
@@ -87,7 +88,7 @@ export default function AboutPanel({ onClose }: { onClose: () => void }) {
                   {label}
                 </span>
                 {href ? (
-                  <a href={href} target="_blank" rel="noopener noreferrer" style={{
+                  <a href={href} target={download ? '_self' : '_blank'} rel="noopener noreferrer" download={download || undefined} style={{
                     fontFamily: 'var(--font-body)',
                     fontSize: '0.88rem',
                     fontWeight: 300,

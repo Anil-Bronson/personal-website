@@ -18,8 +18,25 @@ const alegreyaSans = Alegreya_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Anil Bronson',
-  description: 'Production Services Technician & Software Engineer — Sony Pictures Imageworks',
+  title: 'Anil Bronson — Portfolio',
+  description: 'Production Services Technician at Sony Pictures Imageworks. Pipeline automation, render farm management, and full-stack development.',
+  keywords: ['Anil Bronson', 'Sony Pictures Imageworks', 'Production Services', 'Pipeline', 'VFX', 'Software Engineer', 'Vancouver'],
+  authors: [{ name: 'Anil Bronson' }],
+  openGraph: {
+    title: 'Anil Bronson — Portfolio',
+    description: 'Production Services Technician at Sony Pictures Imageworks. Pipeline automation, render farm management, and full-stack development.',
+    type: 'website',
+    locale: 'en_CA',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Anil Bronson — Portfolio',
+    description: 'Production Services Technician at Sony Pictures Imageworks.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

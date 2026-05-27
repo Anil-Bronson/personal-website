@@ -8,6 +8,7 @@ interface Props {
   onBartenderClick: (b: 'kon' | 'tsutsui') => void;
   muted: boolean;
   onToggleMute: () => void;
+  chatEverOpened: boolean;
 }
 
 const bottles = [
@@ -25,7 +26,7 @@ const bottles = [
   { shape: 'tall', opacity: 0.85 },
 ];
 
-export default function BarEnvironment({ activeBartender, onBartenderClick, muted, onToggleMute }: Props) {
+export default function BarEnvironment({ activeBartender, onBartenderClick, muted, onToggleMute, chatEverOpened }: Props) {
   return (
     <div className={styles.bar}>
       {/* Ceiling */}
@@ -68,7 +69,7 @@ export default function BarEnvironment({ activeBartender, onBartenderClick, mute
         {/* Kon */}
         <motion.div
           className={`${styles.bartender} ${styles.bartenderLeft}`}
-          animate={{ opacity: activeBartender === 'kon' ? 1 : 0.75 }}
+          animate={{ opacity: !chatEverOpened || activeBartender === 'kon' ? 1 : 0.6 }}
           transition={{ duration: 0.5 }}
           onClick={() => onBartenderClick('kon')}
           role="button"
@@ -76,27 +77,21 @@ export default function BarEnvironment({ activeBartender, onBartenderClick, mute
           onKeyDown={(e) => e.key === 'Enter' && onBartenderClick('kon')}
           aria-label="Chat with Satoshi Kon"
         >
-          <motion.div
-            className={styles.figure}
-            animate={{ y: [0, -2, 0] }}
+          <motion.img
+            src="/images/kon.png"
+            alt="Satoshi Kon"
+            className={styles.bartenderImg}
+            animate={{ y: [0, -3, 0] }}
             transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <div className={styles.figureHead}>
-              <div className={styles.figureHair} />
-              <div className={styles.figureGlasses}>
-                <div className={styles.lens} />
-                <div className={styles.lens} />
-              </div>
-            </div>
-            <div className={styles.figureBody} />
-          </motion.div>
+            draggable={false}
+          />
           <div className={styles.bartenderName}>S. KON</div>
         </motion.div>
 
         {/* Tsutsui */}
         <motion.div
           className={`${styles.bartender} ${styles.bartenderRight}`}
-          animate={{ opacity: activeBartender === 'tsutsui' ? 1 : 0.75 }}
+          animate={{ opacity: !chatEverOpened || activeBartender === 'tsutsui' ? 1 : 0.6 }}
           transition={{ duration: 0.5 }}
           onClick={() => onBartenderClick('tsutsui')}
           role="button"
@@ -104,16 +99,14 @@ export default function BarEnvironment({ activeBartender, onBartenderClick, mute
           onKeyDown={(e) => e.key === 'Enter' && onBartenderClick('tsutsui')}
           aria-label="Chat with Yasutaka Tsutsui"
         >
-          <motion.div
-            className={styles.figure}
-            animate={{ y: [0, -2, 0] }}
+          <motion.img
+            src="/images/tsutsui.png"
+            alt="Yasutaka Tsutsui"
+            className={styles.bartenderImg}
+            animate={{ y: [0, -3, 0] }}
             transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-          >
-            <div className={`${styles.figureHead} ${styles.figureHeadAlt}`}>
-              <div className={`${styles.figureHair} ${styles.figureHairAlt}`} />
-            </div>
-            <div className={styles.figureBody} />
-          </motion.div>
+            draggable={false}
+          />
           <div className={styles.bartenderName}>Y. TSUTSUI</div>
         </motion.div>
 

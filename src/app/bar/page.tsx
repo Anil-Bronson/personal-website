@@ -15,6 +15,7 @@ export default function BarPage() {
   const [panel, setPanel] = useState<Panel>(null);
   const [activeBartender, setActiveBartender] = useState<'kon' | 'tsutsui'>('kon');
   const [chatOpen, setChatOpen] = useState(false);
+  const [chatEverOpened, setChatEverOpened] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [muted, setMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -78,6 +79,7 @@ export default function BarPage() {
   const handleBartenderClick = (b: 'kon' | 'tsutsui') => {
     setActiveBartender(b);
     setChatOpen(true);
+    setChatEverOpened(true);
   };
 
   return (
@@ -112,6 +114,7 @@ export default function BarPage() {
         onBartenderClick={handleBartenderClick}
         muted={muted}
         onToggleMute={toggleMute}
+        chatEverOpened={chatEverOpened}
       />
 
       <ChatModal

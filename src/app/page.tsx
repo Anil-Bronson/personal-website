@@ -45,12 +45,6 @@ export default function EntryPage() {
         }
         style={{ transformOrigin: '50% 46%' }}
       >
-        <div className={styles.wallSegment}>
-          <div className={styles.wallPanel} />
-          <div className={styles.wallPanel} />
-          <div className={styles.wallPanel} />
-        </div>
-
         <div className={styles.doorContainer}>
           <div className={styles.doorFrame}>
             <div className={styles.door}>
@@ -61,22 +55,16 @@ export default function EntryPage() {
             </div>
             <div className={styles.doorLight} />
           </div>
+          <motion.div
+            className={styles.enterPrompt}
+            initial={{ opacity: 0, y: 8 }}
+            animate={loaded && !isEntering ? { opacity: 1, y: 0 } : isEntering ? { opacity: 0, y: -8 } : { opacity: 0, y: 8 }}
+            transition={{ duration: 1.2, delay: loaded && !isEntering ? 1.4 : 0, ease: [0.16, 1, 0.3, 1] }}
+          >
+            ENTER
+          </motion.div>
         </div>
 
-        <div className={`${styles.wallSegment} ${styles.wallRight}`}>
-          <div className={styles.wallPanel} />
-          <div className={styles.wallPanel} />
-          <div className={styles.wallPanel} />
-        </div>
-      </motion.div>
-
-      <motion.div
-        className={styles.enterPrompt}
-        initial={{ opacity: 0, y: 8 }}
-        animate={loaded && !isEntering ? { opacity: 1, y: 0 } : isEntering ? { opacity: 0, y: -8 } : { opacity: 0, y: 8 }}
-        transition={{ duration: 1.2, delay: loaded && !isEntering ? 1.4 : 0, ease: [0.16, 1, 0.3, 1] }}
-      >
-        ENTER
       </motion.div>
 
       <motion.div

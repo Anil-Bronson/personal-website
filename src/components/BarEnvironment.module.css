@@ -212,7 +212,6 @@
 
 .bartender {
   position: absolute;
-  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -221,102 +220,27 @@
   cursor: pointer;
 }
 
-.bartenderLeft  { left: 14%; }
-.bartenderRight { right: 14%; }
+.bartenderLeft  { left: 14%; bottom: -14vh; }
+.bartenderRight { right: 14%; bottom: -14vh; }
 
-.bartender:hover .figureHead,
-.bartender:hover .figureHeadAlt {
-  box-shadow:
-    0 0 22px 8px oklch(65% 0.14 57 / 0.35),
-    4px -3px 18px oklch(65% 0.13 55 / 0.30),
-    -2px 0 8px oklch(8% 0.010 35 / 0.6);
-  transition: box-shadow 0.3s ease;
+.bartenderImg {
+  height: 36vh;
+  width: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  transition: filter 0.3s ease;
 }
 
-.bartender:hover .figureBody {
-  box-shadow:
-    0 0 18px 6px oklch(62% 0.12 55 / 0.18),
-    3px 0 14px oklch(62% 0.12 55 / 0.15);
-  transition: box-shadow 0.3s ease;
+.bartender:hover .bartenderImg {
+  filter:
+    drop-shadow(0 0 14px oklch(65% 0.14 57 / 0.55))
+    drop-shadow(0 0 30px oklch(62% 0.12 55 / 0.30));
 }
 
 .bartender:hover .bartenderName {
   color: var(--amber-dim);
   transition: color 0.3s ease;
-}
-
-.figure {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-.figureBody {
-  width: 72px;
-  height: 90px;
-  background: linear-gradient(
-    to bottom,
-    oklch(20% 0.024 37) 0%,
-    oklch(15% 0.020 36) 100%
-  );
-  border-radius: 8px 8px 0 0;
-  box-shadow:
-    3px 0 14px oklch(62% 0.12 55 / 0.12),
-    -2px 0 10px oklch(62% 0.12 55 / 0.08);
-}
-
-.figureHead {
-  width: 48px;
-  height: 54px;
-  background: oklch(32% 0.026 38);
-  border-radius: 50% 50% 44% 44%;
-  position: relative;
-  box-shadow:
-    4px -3px 18px oklch(65% 0.13 55 / 0.25),
-    -2px 0 8px oklch(8% 0.010 35 / 0.7);
-}
-
-.figureHeadAlt {
-  width: 50px;
-  height: 56px;
-  background: oklch(34% 0.024 40);
-  border-radius: 48% 48% 44% 44%;
-  box-shadow:
-    -4px -3px 18px oklch(65% 0.13 55 / 0.22),
-    2px 0 8px oklch(8% 0.010 35 / 0.7);
-}
-
-.figureHair {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: oklch(12% 0.015 33);
-  border-radius: 50% 50% 0 0;
-}
-
-.figureHairAlt {
-  height: 45%;
-  background: oklch(30% 0.018 40);
-}
-
-.figureGlasses {
-  position: absolute;
-  top: 48%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 3px;
-}
-
-.lens {
-  width: 13px;
-  height: 9px;
-  border: 1.5px solid oklch(42% 0.040 50 / 0.7);
-  border-radius: 3px;
-  background: oklch(60% 0.10 55 / 0.08);
 }
 
 .bartenderName {
@@ -609,10 +533,9 @@
 }
 
 @media (max-width: 768px) {
-  .bartenderLeft  { left: 5%; }
-  .bartenderRight { right: 5%; }
-  .figureBody { width: 52px; height: 65px; }
-  .figureHead { width: 38px; height: 42px; }
+  .bartenderLeft  { left: 2%; }
+  .bartenderRight { right: 2%; }
+  .bartenderImg   { height: 24vh; }
   .pendantGlow { width: 50px; }
   .bottles { gap: 8px; padding: 0 2%; }
   .bottle_tall { height: 64px; }

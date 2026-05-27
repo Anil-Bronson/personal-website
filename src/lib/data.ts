@@ -74,6 +74,7 @@ export const projects = [
       'Web gaming platform designed specifically for seniors. Large-format UI and simplified navigation validated through hands-on accessibility and usability testing. JavaScript-based interactive games with progress tracking.',
     tech: ['JavaScript', 'HTML', 'CSS'],
     stat: '+35% engagement',
+    github: 'https://github.com/SweptShadow/2800_202410_BBY19',
   },
   {
     title: 'Financial Automation Engine',
@@ -83,6 +84,17 @@ export const projects = [
       'Automated transactional parsing that organizes disjointed bank datasets into dynamic, categorized cloud ledgers via optimized sync operations. Built with Python and Google Apps Script.',
     tech: ['Python', 'Google Apps Script', 'Google Sheets API'],
     stat: 'Full automation',
+    github: 'https://github.com/Anil-Bronson/finance_script',
+  },
+  {
+    title: 'Meme Caption Generator',
+    category: 'AI Proxy Server',
+    period: '2024',
+    description:
+      'Deployed a local AI model and built a Node.js proxy server to expose it as a REST API. Client sends images, the server routes requests to the local model and streams back generated meme-style captions. Includes a lightweight front-end for live testing.',
+    tech: ['JavaScript', 'Node.js', 'Python', 'REST API', 'HTML', 'CSS'],
+    stat: 'Local AI inference',
+    github: 'https://github.com/Jayden-Hutchinson/4537-assignment',
   },
 ];
 

@@ -42,10 +42,34 @@ export default function ProjectsPanel({ onClose }: { onClose: () => void }) {
               <div className={styles.cardTitle}>{project.title}</div>
               <div className={styles.cardStat}>{project.stat}</div>
               <p className={styles.cardDesc}>{project.description}</p>
-              <div className={styles.chips}>
-                {project.tech.map((t) => (
-                  <span key={t} className={styles.chip}>{t}</span>
-                ))}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
+                <div className={styles.chips}>
+                  {project.tech.map((t) => (
+                    <span key={t} className={styles.chip}>{t}</span>
+                  ))}
+                </div>
+                {'github' in project && project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '0.52rem',
+                      fontWeight: 200,
+                      letterSpacing: '0.35em',
+                      color: 'var(--text-ghost)',
+                      textDecoration: 'none',
+                      textTransform: 'uppercase',
+                      transition: 'color 0.25s',
+                      flexShrink: 0,
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = 'var(--amber-muted)')}
+                    onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-ghost)')}
+                  >
+                    View on GitHub →
+                  </a>
+                )}
               </div>
             </motion.div>
           ))}
