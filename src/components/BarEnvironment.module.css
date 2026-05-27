@@ -540,4 +540,8 @@
   .bottles { gap: 8px; padding: 0 2%; }
   .bottle_tall { height: 64px; }
   .bottle_wine { height: 74px; }
+  .recordPlayer {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
