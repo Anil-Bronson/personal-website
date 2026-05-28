@@ -88,12 +88,12 @@ export const projects = [
   },
   {
     title: 'Meme Caption Generator',
-    category: 'AI Proxy Server',
+    category: 'Multi-Model AI Pipeline',
     period: '2024',
     description:
-      'Deployed a local AI model and built a Node.js proxy server to expose it as a REST API. Client sends images, the server routes requests to the local model and streams back generated meme-style captions. Includes a lightweight front-end for live testing.',
+      'Built a multi-model inference pipeline using locally hosted LLMs. An image-recognition model analyses uploaded images and generates structured scene descriptions, which are passed as context to a second language model that produces caption output. A Node.js proxy server abstracts both models behind a unified REST API, decoupling the client from the underlying inference layer.',
     tech: ['JavaScript', 'Node.js', 'Python', 'REST API', 'HTML', 'CSS'],
-    stat: 'Local AI inference',
+    stat: '2-model pipeline',
     github: 'https://github.com/Jayden-Hutchinson/4537-assignment',
   },
 ];
