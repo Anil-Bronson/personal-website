@@ -12,10 +12,10 @@
   --amber-muted: oklch(50% 0.09 52);
   --amber-dim: oklch(38% 0.07 48);
 
-  --text-primary: oklch(87% 0.016 60);
-  --text-secondary: oklch(62% 0.017 53);
-  --text-muted: oklch(42% 0.012 48);
-  --text-ghost: oklch(26% 0.009 44);
+  --text-primary: oklch(90% 0.016 60);
+  --text-secondary: oklch(75% 0.017 53);
+  --text-muted: oklch(52% 0.012 48);
+  --text-ghost: oklch(36% 0.009 44);
 
   --font-display: var(--font-display, 'Georgia', serif);
   --font-body: var(--font-body, 'Georgia', serif);
