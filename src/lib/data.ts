@@ -87,7 +87,7 @@ export const projects = [
     github: 'https://github.com/Anil-Bronson/finance_script',
   },
   {
-    title: 'Meme Caption Generator',
+    title: 'Local AI Caption Engine',
     category: 'Multi-Model AI Pipeline',
     period: '2024',
     description:
