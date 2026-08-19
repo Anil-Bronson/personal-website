@@ -62,8 +62,8 @@ export const projects = [
     category: 'Self-Hosted Infrastructure',
     period: '2026',
     description:
-      'Headless Debian server running a Docker-orchestrated stack of 20+ containers: Jellyfin/Jellyseerr for media, a Radarr/Sonarr/Prowlarr/Bazarr automation pipeline feeding qBittorrent through a Gluetun VPN tunnel, AdGuard Home for network-wide DNS filtering, and a Glance dashboard tying it all into one status view.',
-    tech: ['Docker', 'Debian', 'Linux', 'AdGuard Home', 'Jellyfin', 'Gluetun'],
+      'Headless Debian server running a Docker-orchestrated stack of 20+ containers behind a Caddy reverse proxy, with automatic TLS via DNS-01 ACME challenges for clean HTTPS subdomains. AdGuard Home handles network-wide DNS filtering, Jellyfin serves media internally, and a Glance dashboard ties everything into one status view.',
+    tech: ['Docker', 'Debian', 'Linux', 'Caddy', 'AdGuard Home', 'Jellyfin'],
     stat: '20+ containers',
   },
   {
