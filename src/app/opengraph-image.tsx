@@ -51,6 +51,7 @@ export default async function Image() {
             color: '#a97d43',
             textTransform: 'uppercase',
             marginBottom: 36,
+            fontFamily: 'Josefin Slab',
           }}
         >
           Radio Club Bar
@@ -59,12 +60,12 @@ export default async function Image() {
         <div
           style={{
             display: 'flex',
-            fontSize: 96,
+            fontSize: 76,
             fontWeight: 300,
-            letterSpacing: 2,
+            letterSpacing: 1,
             color: '#f1e6d6',
             lineHeight: 1,
-            fontFamily: 'Josefin Slab',
+            fontFamily: 'Alegreya Sans',
           }}
         >
           Anil Bronson
@@ -91,6 +92,7 @@ export default async function Image() {
             letterSpacing: 6,
             color: '#5a4530',
             textTransform: 'uppercase',
+            fontFamily: 'Josefin Slab',
           }}
         >
           est. mcmxcvii
