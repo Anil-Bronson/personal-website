@@ -10,7 +10,7 @@ export const about = {
   skills: {
     Languages: ['Python', 'TypeScript', 'JavaScript', 'Java', 'C++'],
     'Frameworks': ['Node.js', 'Next.js', 'React', 'Tailwind CSS', 'Prisma'],
-    'Tools & Infra': ['Linux', 'Git', 'Figma', 'Google Apps Script', 'YAML'],
+    'Tools & Infra': ['Linux', 'Docker', 'Git', 'Figma', 'Google Apps Script', 'YAML'],
     Databases: ['PostgreSQL', 'MongoDB', 'Firebase'],
   },
 };
@@ -95,6 +95,15 @@ export const projects = [
     tech: ['JavaScript', 'Node.js', 'Python', 'REST API', 'HTML', 'CSS'],
     stat: '2-model pipeline',
     github: 'https://github.com/Jayden-Hutchinson/4537-assignment',
+  },
+  {
+    title: 'Self-Hosted Home Lab',
+    category: 'Self-Hosted Infrastructure',
+    period: '2026',
+    description:
+      'Headless Debian server running a Docker-orchestrated stack of 20+ containers: Jellyfin/Jellyseerr for media, a Radarr/Sonarr/Prowlarr/Bazarr automation pipeline feeding qBittorrent through a Gluetun VPN tunnel, AdGuard Home for network-wide DNS filtering, and a Glance dashboard tying it all into one status view.',
+    tech: ['Docker', 'Debian', 'Linux', 'AdGuard Home', 'Jellyfin', 'Gluetun'],
+    stat: '20+ containers',
   },
 ];
 
