@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     locale: 'en_CA',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Anil Bronson — Portfolio',
     description: 'Production Services Technician at Sony Pictures Imageworks.',
   },
