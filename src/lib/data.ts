@@ -58,6 +58,25 @@ export const education = [
 
 export const projects = [
   {
+    title: 'Self-Hosted Home Lab',
+    category: 'Self-Hosted Infrastructure',
+    period: '2026',
+    description:
+      'Headless Debian server running a Docker-orchestrated stack of 20+ containers: Jellyfin/Jellyseerr for media, a Radarr/Sonarr/Prowlarr/Bazarr automation pipeline feeding qBittorrent through a Gluetun VPN tunnel, AdGuard Home for network-wide DNS filtering, and a Glance dashboard tying it all into one status view.',
+    tech: ['Docker', 'Debian', 'Linux', 'AdGuard Home', 'Jellyfin', 'Gluetun'],
+    stat: '20+ containers',
+  },
+  {
+    title: 'Local AI Caption Engine',
+    category: 'Multi-Model AI Pipeline',
+    period: '2024',
+    description:
+      'Built a multi-model inference pipeline using locally hosted LLMs. An image-recognition model analyses uploaded images and generates structured scene descriptions, which are passed as context to a second language model that produces caption output. A Node.js proxy server abstracts both models behind a unified REST API, decoupling the client from the underlying inference layer.',
+    tech: ['JavaScript', 'Node.js', 'Python', 'REST API', 'HTML', 'CSS'],
+    stat: '2-model pipeline',
+    github: 'https://github.com/Jayden-Hutchinson/4537-assignment',
+  },
+  {
     title: 'Conscious Connections',
     category: 'Full-Stack AI Application',
     period: 'May 2025',
@@ -85,26 +104,7 @@ export const projects = [
     tech: ['Python', 'Google Apps Script', 'Google Sheets API'],
     stat: 'Full automation',
     github: 'https://github.com/Anil-Bronson/finance_script',
-  },
-  {
-    title: 'Local AI Caption Engine',
-    category: 'Multi-Model AI Pipeline',
-    period: '2024',
-    description:
-      'Built a multi-model inference pipeline using locally hosted LLMs. An image-recognition model analyses uploaded images and generates structured scene descriptions, which are passed as context to a second language model that produces caption output. A Node.js proxy server abstracts both models behind a unified REST API, decoupling the client from the underlying inference layer.',
-    tech: ['JavaScript', 'Node.js', 'Python', 'REST API', 'HTML', 'CSS'],
-    stat: '2-model pipeline',
-    github: 'https://github.com/Jayden-Hutchinson/4537-assignment',
-  },
-  {
-    title: 'Self-Hosted Home Lab',
-    category: 'Self-Hosted Infrastructure',
-    period: '2026',
-    description:
-      'Headless Debian server running a Docker-orchestrated stack of 20+ containers: Jellyfin/Jellyseerr for media, a Radarr/Sonarr/Prowlarr/Bazarr automation pipeline feeding qBittorrent through a Gluetun VPN tunnel, AdGuard Home for network-wide DNS filtering, and a Glance dashboard tying it all into one status view.',
-    tech: ['Docker', 'Debian', 'Linux', 'AdGuard Home', 'Jellyfin', 'Gluetun'],
-    stat: '20+ containers',
-  },
+  }
 ];
 
 export const bartenderThinking = {
