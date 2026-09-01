@@ -7,9 +7,10 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 export default async function Image() {
-  const [josefinSlab, alegreyaSans] = await Promise.all([
+  const [josefinSlab, alegreyaSans, alegreyaSansMedium] = await Promise.all([
     readFile(join(process.cwd(), 'src/assets/fonts/JosefinSlab-300.woff')),
     readFile(join(process.cwd(), 'src/assets/fonts/AlegreyaSans-400.woff')),
+    readFile(join(process.cwd(), 'src/assets/fonts/AlegreyaSans-500.woff')),
   ]);
 
   return new ImageResponse(
@@ -60,12 +61,13 @@ export default async function Image() {
         <div
           style={{
             display: 'flex',
-            fontSize: 76,
-            fontWeight: 300,
-            letterSpacing: 1,
+            fontSize: 72,
+            fontWeight: 500,
+            letterSpacing: 3,
             color: '#f1e6d6',
             lineHeight: 1,
-            fontFamily: 'Alegreya Sans',
+            fontFamily: 'Alegreya Sans Medium',
+            textTransform: 'uppercase',
           }}
         >
           Anil Bronson
@@ -104,6 +106,7 @@ export default async function Image() {
       fonts: [
         { name: 'Josefin Slab', data: josefinSlab, style: 'normal', weight: 300 },
         { name: 'Alegreya Sans', data: alegreyaSans, style: 'normal', weight: 400 },
+        { name: 'Alegreya Sans Medium', data: alegreyaSansMedium, style: 'normal', weight: 500 },
       ],
     }
   );
