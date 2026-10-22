@@ -62,9 +62,9 @@ export const projects = [
     category: 'Self-Hosted Infrastructure',
     period: '2026',
     description:
-      'Headless Debian server running a Docker-orchestrated stack of 20+ containers behind a Caddy reverse proxy, with automatic TLS via DNS-01 ACME challenges for clean HTTPS subdomains. AdGuard Home handles network-wide DNS filtering, Jellyfin serves media internally, and a Glance dashboard ties everything into one status view.',
-    tech: ['Docker', 'Debian', 'Linux', 'Caddy', 'AdGuard Home', 'Jellyfin'],
-    stat: '20+ containers',
+      'Debian 13 server running 25+ Docker Compose services over a 5 TB mergerfs pool, behind a Caddy reverse proxy with automatic Let\'s Encrypt TLS (DNS-01) and zero-trust remote access over Tailscale instead of open ports. Built the reliability layer myself: a custom Python SMART disk-health service, nightly encrypted restic backups verified with test restores, Gatus uptime and certificate checks, and udev/systemd auto-recovery when the storage enclosure comes up late, all alerting through a self-hosted ntfy server with per-service scoped tokens. Also runs custom apps including a FastAPI personal finance tracker with LLM transaction categorization and an AI-assisted fake-torrent detector wired into the *arr stack.',
+    tech: ['Debian', 'Docker Compose', 'Caddy', 'Tailscale', 'Python', 'FastAPI', 'restic', 'systemd'],
+    stat: '25+ containers',
   },
   {
     title: 'Local AI Caption Engine',
@@ -96,14 +96,14 @@ export const projects = [
     github: 'https://github.com/SweptShadow/2800_202410_BBY19',
   },
   {
-    title: 'Financial Automation Engine',
-    category: 'Pipeline Automation',
-    period: '2024',
+    title: 'Spend Tracker',
+    category: 'Full-Stack Finance App',
+    period: '2026',
     description:
-      'Automated transactional parsing that organizes disjointed bank datasets into dynamic, categorized cloud ledgers via optimized sync operations. Built with Python and Google Apps Script.',
-    tech: ['Python', 'Google Apps Script', 'Google Sheets API'],
-    stat: 'Full automation',
-    github: 'https://github.com/Anil-Bronson/finance_script',
+      'Self-hosted personal finance app built with FastAPI and SQLite. Imports bank CSVs with de-duplication and categorizes transactions in tiers: user rules first, then the OpenAI API, with Claude as a fallback. Tracks split bills and IOUs, budgets, net worth and income, finds recurring subscriptions, and sends weekly push summaries. Runs on my home lab with nightly backups, and auth checks trusted devices behind a shared secret set by the reverse proxy.',
+    tech: ['Python', 'FastAPI', 'SQLite', 'OpenAI API', 'Claude API', 'Docker'],
+    stat: '~2,600 lines',
+    github: 'https://github.com/Anil-Bronson/finance-dashboard',
   }
 ];
 
