@@ -77,6 +77,16 @@ export const projects = [
     github: 'https://github.com/Jayden-Hutchinson/4537-assignment',
   },
   {
+    title: 'Spend Tracker',
+    category: 'Full-Stack Finance App',
+    period: '2026',
+    description:
+      'Self-hosted personal finance app built with FastAPI and SQLite. Imports bank CSVs with de-duplication and categorizes transactions in tiers: user rules first, then the OpenAI API, with Claude as a fallback. Tracks split bills and IOUs, budgets, net worth and income, finds recurring subscriptions, and sends weekly push summaries. Runs on my home lab with nightly backups, and auth checks trusted devices behind a shared secret set by the reverse proxy.',
+    tech: ['Python', 'FastAPI', 'SQLite', 'OpenAI API', 'Claude API', 'Docker'],
+    stat: '~2,600 lines',
+    github: 'https://github.com/Anil-Bronson/finance-dashboard',
+  },
+  {
     title: 'Conscious Connections',
     category: 'Full-Stack AI Application',
     period: 'May 2025',
@@ -94,16 +104,6 @@ export const projects = [
     tech: ['JavaScript', 'HTML', 'CSS'],
     stat: '+35% engagement',
     github: 'https://github.com/SweptShadow/2800_202410_BBY19',
-  },
-  {
-    title: 'Spend Tracker',
-    category: 'Full-Stack Finance App',
-    period: '2026',
-    description:
-      'Self-hosted personal finance app built with FastAPI and SQLite. Imports bank CSVs with de-duplication and categorizes transactions in tiers: user rules first, then the OpenAI API, with Claude as a fallback. Tracks split bills and IOUs, budgets, net worth and income, finds recurring subscriptions, and sends weekly push summaries. Runs on my home lab with nightly backups, and auth checks trusted devices behind a shared secret set by the reverse proxy.',
-    tech: ['Python', 'FastAPI', 'SQLite', 'OpenAI API', 'Claude API', 'Docker'],
-    stat: '~2,600 lines',
-    github: 'https://github.com/Anil-Bronson/finance-dashboard',
   }
 ];
 
