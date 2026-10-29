@@ -62,7 +62,7 @@ export const projects = [
     category: 'Self-Hosted Infrastructure',
     period: '2026',
     description:
-      'Debian 13 server running 25+ Docker Compose services over a 5 TB mergerfs pool, behind a Caddy reverse proxy with automatic Let\'s Encrypt TLS (DNS-01) and zero-trust remote access over Tailscale instead of open ports. Built the reliability layer myself: a custom Python SMART disk-health service, nightly encrypted restic backups verified with test restores, Gatus uptime and certificate checks, and udev/systemd auto-recovery when the storage enclosure comes up late, all alerting through a self-hosted ntfy server with per-service scoped tokens. Also runs custom apps including a FastAPI personal finance tracker with LLM transaction categorization and an AI-assisted fake-torrent detector wired into the *arr stack.',
+      'Debian 13 server running 25+ Docker Compose services over a 5 TB mergerfs pool, behind a Caddy reverse proxy with automatic Let\'s Encrypt TLS (DNS-01) and zero-trust remote access over Tailscale instead of open ports. A reliability layer: custom Python SMART disk-health service, nightly encrypted restic backups verified with test restores, Gatus uptime and certificate checks, and udev/systemd auto-recovery when the storage enclosure comes up late, all alerting through a self-hosted ntfy server with per-service scoped tokens. Also runs custom apps including a FastAPI personal finance tracker with LLM transaction categorization and a claude agent running 24/7 for active monitoring of the home lab.',
     tech: ['Debian', 'Docker Compose', 'Caddy', 'Tailscale', 'Python', 'FastAPI', 'restic', 'systemd'],
     stat: '25+ containers',
   },
