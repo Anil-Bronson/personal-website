@@ -7,12 +7,14 @@ import ChatModal from '@/components/ChatModal';
 import AboutPanel from '@/components/panels/AboutPanel';
 import ProjectsPanel from '@/components/panels/ProjectsPanel';
 import ExperiencePanel from '@/components/panels/ExperiencePanel';
+import MenuPanel from '@/components/panels/MenuPanel';
 import styles from './bar.module.css';
 
-type Panel = 'about' | 'projects' | 'experience' | null;
+type Panel = 'about' | 'projects' | 'experience' | 'menu' | null;
 
 export default function BarPage() {
   const [panel, setPanel] = useState<Panel>(null);
+  const [focusedProject, setFocusedProject] = useState<string | null>(null);
   const [activeBartender, setActiveBartender] = useState<'kon' | 'tsutsui'>('kon');
   const [chatOpen, setChatOpen] = useState(false);
   const [chatEverOpened, setChatEverOpened] = useState(false);
@@ -87,6 +89,16 @@ export default function BarPage() {
     }
   };
 
+  const openPanel = (next: Panel) => {
+    setFocusedProject(null);
+    setPanel(next);
+  };
+
+  const handleProjectClick = (title: string) => {
+    setFocusedProject(title);
+    setPanel('projects');
+  };
+
   const handleBartenderClick = (b: 'kon' | 'tsutsui') => {
     setActiveBartender(b);
     setChatOpen(true);
@@ -113,7 +125,7 @@ export default function BarPage() {
           <button
             key={item}
             className={`${styles.navItem} ${panel === item ? styles.navActive : ''}`}
-            onClick={() => setPanel(panel === item ? null : item)}
+            onClick={() => openPanel(panel === item ? null : item)}
           >
             {item}
           </button>
@@ -126,6 +138,8 @@ export default function BarPage() {
         muted={muted}
         onToggleMute={toggleMute}
         chatEverOpened={chatEverOpened}
+        onProjectClick={handleProjectClick}
+        onMenuClick={() => openPanel('menu')}
       />
 
       <ChatModal
@@ -140,10 +154,13 @@ export default function BarPage() {
           <AboutPanel key="about" onClose={() => setPanel(null)} />
         )}
         {panel === 'projects' && (
-          <ProjectsPanel key="projects" onClose={() => setPanel(null)} />
+          <ProjectsPanel key="projects" focus={focusedProject} onClose={() => setPanel(null)} />
         )}
         {panel === 'experience' && (
           <ExperiencePanel key="experience" onClose={() => setPanel(null)} />
+        )}
+        {panel === 'menu' && (
+          <MenuPanel key="menu" onClose={() => setPanel(null)} />
         )}
       </AnimatePresence>
     </div>

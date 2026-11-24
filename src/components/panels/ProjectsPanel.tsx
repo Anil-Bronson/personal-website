@@ -1,10 +1,20 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { projects } from '@/lib/data';
 import styles from './Panel.module.css';
 
-export default function ProjectsPanel({ onClose }: { onClose: () => void }) {
+export default function ProjectsPanel({ onClose, focus }: { onClose: () => void; focus?: string | null }) {
+  const focusRef = useRef<HTMLDivElement>(null);
+
+  // Opened from a shelf bottle: bring that project into view once the panel has slid in
+  useEffect(() => {
+    if (!focus) return;
+    const t = setTimeout(() => focusRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 450);
+    return () => clearTimeout(t);
+  }, [focus]);
+
   return (
     <motion.div
       className={styles.overlay}
@@ -33,7 +43,8 @@ export default function ProjectsPanel({ onClose }: { onClose: () => void }) {
           {projects.map((project, i) => (
             <motion.div
               key={project.title}
-              className={styles.card}
+              ref={project.title === focus ? focusRef : undefined}
+              className={`${styles.card} ${project.title === focus ? styles.cardFocused : ''}`}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}

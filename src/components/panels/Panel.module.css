@@ -168,6 +168,52 @@
   color: var(--amber-muted);
 }
 
+/* Focused card when opened from a shelf bottle */
+.cardFocused {
+  box-shadow: inset 0 0 0 1px oklch(45% 0.09 54 / 0.7), 0 0 24px oklch(60% 0.12 55 / 0.12);
+}
+
+/* ── Drink menu ───────────────────────────────────────── */
+.drink {
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid oklch(18% 0.022 37);
+}
+
+.drinkHeader {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+}
+
+.drinkHeader .cardTitle,
+.drinkHeader .cardCategory {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.drinkLeader {
+  flex: 1;
+  border-bottom: 1px dotted oklch(30% 0.03 45);
+  transform: translateY(-4px);
+}
+
+.drinkNote {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--amber-muted);
+  margin: var(--space-xs) 0 var(--space-sm);
+}
+
+.drinkIngredients {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
 /* ── Experience entry ─────────────────────────────────── */
 .expEntry {
   margin-bottom: var(--space-2xl);

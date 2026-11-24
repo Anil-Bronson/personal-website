@@ -175,6 +175,79 @@
   border-radius: 3px 3px 0 0;
 }
 
+/* Project bottles — amber glass with a paper label, tag on hover */
+.bottleProject {
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: oklch(15% 0.035 52);
+  box-shadow: inset 0 0 6px oklch(45% 0.09 55 / 0.35);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s var(--ease-out-quart);
+}
+
+.bottleLabel {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 38%;
+  height: 22%;
+  min-height: 10px;
+  background: oklch(58% 0.06 70 / 0.55);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.bottleTag {
+  position: absolute;
+  bottom: calc(100% + 42px);
+  left: 50%;
+  transform: translate(-50%, 6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+  padding: 6px 10px;
+  background: oklch(9% 0.012 37 / 0.92);
+  border: 1px solid oklch(30% 0.04 48);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.3s var(--ease-out-quart);
+  z-index: 3;
+}
+
+.bottleTagTitle {
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 200;
+  letter-spacing: 0.25em;
+  color: var(--amber-pale);
+  text-transform: uppercase;
+}
+
+.bottleTagMeta {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-style: italic;
+  color: var(--amber-muted);
+}
+
+.bottleProject:hover,
+.bottleProject:focus-visible {
+  background: oklch(24% 0.06 55);
+  box-shadow:
+    inset 0 0 8px oklch(70% 0.14 57 / 0.45),
+    0 0 18px 4px oklch(65% 0.14 57 / 0.30);
+  transform: translateY(-3px);
+  outline: none;
+}
+
+.bottleProject:hover .bottleTag,
+.bottleProject:focus-visible .bottleTag {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 .glassesSilhouette {
   position: absolute;
   bottom: 10px;
@@ -308,6 +381,51 @@
   box-shadow: 0 1px 4px oklch(8% 0.010 35 / 0.6);
   transform: translateX(-50%);
 }
+
+/* Chalkboard of specials hanging on the back wall */
+.chalkboard {
+  position: absolute;
+  top: 16%;
+  left: 6%;
+  width: 92px;
+  height: 70px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  background: oklch(14% 0.008 160);
+  border: 3px solid oklch(20% 0.028 40);
+  box-shadow: 0 4px 12px oklch(4% 0.006 35 / 0.8), inset 0 0 14px oklch(6% 0.006 160 / 0.9);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.chalkTitle {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-style: italic;
+  color: oklch(78% 0.01 90 / 0.55);
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.chalkLine {
+  height: 1px;
+  background: oklch(78% 0.01 90 / 0.22);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.chalkboard:hover,
+.chalkboard:focus-visible {
+  outline: none;
+  box-shadow:
+    0 4px 12px oklch(4% 0.006 35 / 0.8),
+    0 0 22px 4px oklch(65% 0.14 57 / 0.22),
+    inset 0 0 14px oklch(6% 0.006 160 / 0.9);
+}
+.chalkboard:hover .chalkTitle { color: oklch(85% 0.01 90 / 0.8); }
 
 .counterGlass {
   width: 20px;

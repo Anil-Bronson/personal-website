@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { projects } from '@/lib/data';
 import styles from './BarEnvironment.module.css';
 
 interface Props {
@@ -9,6 +10,8 @@ interface Props {
   muted: boolean;
   onToggleMute: () => void;
   chatEverOpened: boolean;
+  onProjectClick: (title: string) => void;
+  onMenuClick: () => void;
 }
 
 const bottles = [
@@ -26,7 +29,13 @@ const bottles = [
   { shape: 'tall', opacity: 0.85 },
 ];
 
-export default function BarEnvironment({ activeBartender, onBartenderClick, muted, onToggleMute, chatEverOpened }: Props) {
+// Every other bottle from the second one carries a project label
+const PROJECT_SLOTS = [1, 3, 5, 7, 9, 11];
+const shelfProjects = new Map(
+  projects.slice(0, PROJECT_SLOTS.length).map((p, i) => [PROJECT_SLOTS[i], p])
+);
+
+export default function BarEnvironment({ activeBartender, onBartenderClick, muted, onToggleMute, chatEverOpened, onProjectClick, onMenuClick }: Props) {
   return (
     <div className={styles.bar}>
       {/* Ceiling */}
@@ -53,15 +62,41 @@ export default function BarEnvironment({ activeBartender, onBartenderClick, mute
         <div className={styles.shelfGlow} />
         <div className={styles.shelfEdge} />
         <div className={styles.bottles}>
-          {bottles.map((b, i) => (
-            <div
-              key={i}
-              className={`${styles.bottle} ${styles[`bottle_${b.shape}`]}`}
-              style={{ opacity: b.opacity }}
-            />
-          ))}
+          {bottles.map((b, i) => {
+            const project = shelfProjects.get(i);
+            if (!project) {
+              return (
+                <div
+                  key={i}
+                  className={`${styles.bottle} ${styles[`bottle_${b.shape}`]}`}
+                  style={{ opacity: b.opacity }}
+                />
+              );
+            }
+            return (
+              <button
+                key={i}
+                className={`${styles.bottle} ${styles[`bottle_${b.shape}`]} ${styles.bottleProject}`}
+                onClick={() => onProjectClick(project.title)}
+                aria-label={`Open project: ${project.title}`}
+              >
+                <span className={styles.bottleLabel} />
+                <span className={styles.bottleTag}>
+                  <span className={styles.bottleTagTitle}>{project.title}</span>
+                  <span className={styles.bottleTagMeta}>{project.stat}</span>
+                </span>
+              </button>
+            );
+          })}
         </div>
         <div className={styles.glassesSilhouette} />
+        {/* Chalkboard of specials on the back wall — opens the skills menu */}
+        <button className={styles.chalkboard} onClick={onMenuClick} aria-label="Open the drink menu (skills)">
+          <span className={styles.chalkTitle}>specials</span>
+          <span className={styles.chalkLine} style={{ width: '70%' }} />
+          <span className={styles.chalkLine} style={{ width: '55%' }} />
+          <span className={styles.chalkLine} style={{ width: '64%' }} />
+        </button>
       </div>
 
       {/* Bartender zone */}

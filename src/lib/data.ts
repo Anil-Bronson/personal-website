@@ -9,11 +9,19 @@ export const about = {
   bio: "I'm Anil, currently a full-time Production Services Technician at Sony Pictures Imageworks. I'm passionate about everything in the coding space, especially the rapid advancements in AI and agentic development. I hold myself to a high standard and love collaborating on projects that I think will have a real impact on our future.",
   skills: {
     Languages: ['Python', 'TypeScript', 'JavaScript', 'Java', 'C++'],
-    'Frameworks': ['Node.js', 'Next.js', 'React', 'Tailwind CSS', 'Prisma'],
-    'Tools & Infra': ['Linux', 'Docker', 'Git', 'Figma', 'Google Apps Script', 'YAML'],
-    Databases: ['PostgreSQL', 'MongoDB', 'Firebase'],
+    'Frameworks': ['Node.js', 'Next.js', 'React', 'FastAPI', 'Tailwind CSS', 'Prisma'],
+    'Tools & Infra': ['Linux', 'Docker Compose', 'Caddy', 'Tailscale', 'systemd', 'restic', 'Git', 'Figma', 'YAML'],
+    Databases: ['PostgreSQL', 'SQLite', 'MongoDB', 'Firebase'],
   },
 };
+
+// The counter menu: one signature drink per skill category in about.skills
+export const drinkMenu = [
+  { name: 'The Polyglot', category: 'Languages', note: 'Five spirits, one glass. Stirred, never shaken.' },
+  { name: 'Full Stack Sour', category: 'Frameworks', note: 'Front to back, with a FastAPI twist.' },
+  { name: 'Homelab on the Rocks', category: 'Tools & Infra', note: 'Served over Tailscale. Strong, self-hosted, always up.' },
+  { name: 'Cold Storage', category: 'Databases', note: 'Aged in tables. Backed up nightly.' },
+] as const;
 
 export const experience = [
   {
