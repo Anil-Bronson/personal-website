@@ -1,0 +1,126 @@
+/* html/body don't scroll (the bar is a fixed scene), so this page scrolls itself */
+.scroll {
+  height: 100dvh;
+  overflow-y: auto;
+  background: var(--bg-deep);
+}
+
+.page {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md) var(--space-4xl);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.page a {
+  color: var(--amber-pale);
+  text-decoration-color: var(--amber-dim);
+  text-underline-offset: 3px;
+}
+
+.page a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-bottom: var(--space-3xl);
+}
+
+.header {
+  margin-bottom: var(--space-2xl);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-weight: 200;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.role {
+  margin-top: var(--space-sm);
+  font-style: italic;
+  color: var(--amber-muted);
+}
+
+.bio {
+  margin-top: var(--space-lg);
+}
+
+.contact {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.section {
+  margin: var(--space-3xl) 0 var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid oklch(22% 0.025 40);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--amber-muted);
+}
+
+.entry {
+  margin-bottom: var(--space-xl);
+}
+
+.entry p + p {
+  margin-top: var(--space-sm);
+}
+
+.entryTitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--text-primary);
+}
+
+.meta {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.detail strong {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.bullets {
+  margin-top: var(--space-sm);
+  padding-left: var(--space-lg);
+}
+
+.bullets li + li {
+  margin-top: var(--space-xs);
+}
+
+.skills div {
+  margin-bottom: var(--space-sm);
+}
+
+.skills dt {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.skills dd {
+  margin: 0;
+}

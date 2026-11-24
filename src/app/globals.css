@@ -15,7 +15,7 @@
   --text-primary: oklch(90% 0.016 60);
   --text-secondary: oklch(75% 0.017 53);
   --text-muted: oklch(52% 0.012 48);
-  --text-ghost: oklch(36% 0.009 44);
+  --text-ghost: oklch(46% 0.010 46);
 
   --font-display: var(--font-display, 'Georgia', serif);
   --font-body: var(--font-body, 'Georgia', serif);
@@ -33,6 +33,25 @@
   --space-2xl: 48px;
   --space-3xl: 64px;
   --space-4xl: 96px;
+
+  /* Material textures: tiled SVG noise, blended over the flat gradients */
+  --tex-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --tex-wood-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='160'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.006 0.42' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+  --tex-wood-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='640'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.38 0.005' numOctaves='3' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+
+  /* One focus treatment for every interactive object in the scene */
+  --focus-ring: 1px dashed var(--amber-muted);
+}
+
+/* Static film grain laid over a whole scene */
+.film-grain {
+  position: absolute;
+  inset: 0;
+  background-image: var(--tex-grain);
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 5;
 }
 
 *, *::before, *::after {
@@ -63,6 +82,9 @@ body.panel-open {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    /* Run once and stop, so looping animations don't strobe at 0.01ms */
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

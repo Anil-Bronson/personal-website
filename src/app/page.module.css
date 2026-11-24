@@ -6,7 +6,6 @@
   align-items: center;
   justify-content: center;
   background: var(--bg-void);
-  cursor: pointer;
   overflow: hidden;
   user-select: none;
 }
@@ -25,13 +24,14 @@
 
 .label {
   position: absolute;
+  margin: 0;
   top: 13%;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-display);
-  font-size: 0.62rem;
-  font-weight: 100;
-  letter-spacing: 0.75em;
+  font-size: 0.7rem;
+  font-weight: 200;
+  letter-spacing: 0.7em;
   color: var(--text-ghost);
   white-space: nowrap;
   z-index: 3;
@@ -69,14 +69,30 @@
   );
 }
 
-.doorContainer {
+.doorButton {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.doorButton:focus-visible {
+  outline: none;
+}
+
+.doorButton:focus-visible .doorFrame {
+  outline: var(--focus-ring);
+  outline-offset: 8px;
 }
 
 .doorFrame {
+  display: block;
   position: relative;
   width: 148px;
   height: 280px;
@@ -89,6 +105,7 @@
 }
 
 .door {
+  display: block;
   width: 100%;
   height: 100%;
   background: oklch(11% 0.016 39);
@@ -137,7 +154,8 @@
   transition: box-shadow 0.3s;
 }
 
-.entry:hover .doorKnob {
+.doorButton:hover .doorKnob,
+.doorButton:focus-visible .doorKnob {
   box-shadow: 0 0 10px 4px oklch(68% 0.14 57 / 0.5);
 }
 
@@ -147,8 +165,8 @@
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-display);
-  font-size: 0.52rem;
-  font-weight: 100;
+  font-size: 0.6rem;
+  font-weight: 200;
   letter-spacing: 0.25em;
   color: var(--text-ghost);
   white-space: nowrap;
@@ -169,14 +187,34 @@
   transition: box-shadow 0.4s;
 }
 
-.entry:hover .doorLight {
+.doorButton:hover .doorLight,
+.doorButton:focus-visible .doorLight {
   box-shadow:
     0 0 24px 12px oklch(68% 0.14 57 / 0.65),
     0 6px 45px 18px oklch(65% 0.12 55 / 0.3),
     0 0 6px 2px oklch(80% 0.16 62 / 0.9);
 }
 
+/* The rare door: cooler light underneath, the knob gone pale */
+.doorDream .doorLight {
+  background: oklch(80% 0.07 195);
+  box-shadow:
+    0 0 18px 8px oklch(70% 0.08 195 / 0.45),
+    0 4px 32px 12px oklch(65% 0.07 200 / 0.18),
+    0 0 4px 1px oklch(88% 0.06 190 / 0.8);
+}
+
+.doorDream .doorKnob {
+  background: oklch(62% 0.04 195);
+  box-shadow: 0 0 6px 2px oklch(70% 0.06 195 / 0.35);
+}
+
+.doorDream .doorSign {
+  color: oklch(60% 0.03 195);
+}
+
 .enterPrompt {
+  display: block;
   font-family: var(--font-display);
   font-size: 0.88rem;
   font-weight: 100;
@@ -188,8 +226,44 @@
   transition: color 0.4s;
 }
 
-.entry:hover .enterPrompt {
+.doorButton:hover .enterPrompt,
+.doorButton:focus-visible .enterPrompt {
   color: var(--amber-muted);
+}
+
+/* Shortcuts past the door */
+.shortcuts {
+  position: absolute;
+  bottom: 9%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-xl);
+  padding: 0 var(--space-md);
+  z-index: 3;
+}
+
+.shortcut {
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-style: italic;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid oklch(28% 0.03 45);
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.shortcut:hover {
+  color: var(--amber-pale);
+  border-color: var(--amber-muted);
+}
+
+.shortcut:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
 }
 
 .overlay {

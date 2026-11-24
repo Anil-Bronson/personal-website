@@ -1,8 +1,35 @@
 .bar {
   position: fixed;
   inset: 0;
-  overflow: hidden;
+  /* clip, not hidden: layers that overhang the edges (haze, the shelf) must
+     never make the scene scrollable when something inside takes focus */
+  overflow: clip;
   background: var(--bg-deep);
+  transition: transform 1.4s var(--ease-out-expo);
+}
+
+/* A panel is open: the room turns away from it and steps back, like a set
+   being wheeled off while you read */
+.barReceded {
+  transform: perspective(1400px) rotateY(2.2deg) scale(0.97);
+  transform-origin: 18% 50%;
+}
+
+.lightShift {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 38% 42%, oklch(40% 0.05 210 / 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 90% at 42% 40%, oklch(20% 0.04 225 / 0.30) 0%, oklch(5% 0.015 240 / 0.62) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.barReceded .lightShift {
+  opacity: 1;
 }
 
 /* ── Ceiling ─────────────────────────────────────────── */
@@ -20,6 +47,7 @@
   z-index: 2;
 }
 
+/* Each pendant sets --cord (px) and --lamp (0–1 brightness) inline */
 .pendant {
   position: absolute;
   top: 100%;
@@ -31,31 +59,41 @@
 
 .pendantCord {
   width: 1px;
-  height: 28px;
+  height: var(--cord, 28px);
   background: oklch(22% 0.020 38);
 }
 
 .pendantBulb {
+  animation: lampDrift var(--drift, 17s) ease-in-out var(--drift-delay, 0s) infinite alternate;
   width: 10px;
   height: 14px;
-  background: oklch(72% 0.15 58);
+  background: oklch(calc(48% + 26% * var(--lamp, 1)) 0.15 58);
   border-radius: 50% 50% 45% 45%;
-  box-shadow: 0 0 0 1px oklch(55% 0.12 55);
+  box-shadow: 0 0 0 1px oklch(45% 0.10 55);
 }
 
 .pendantGlow {
   position: absolute;
-  top: 30px;
+  top: calc(var(--cord, 28px) + 2px);
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 60px;
+  width: 130px;
+  height: 90px;
   background: radial-gradient(
     ellipse at 50% 0%,
-    oklch(70% 0.14 57 / 0.20) 0%,
+    oklch(70% 0.14 57 / calc(0.24 * var(--lamp, 1))) 0%,
     transparent 70%
   );
   pointer-events: none;
+  animation: lampDrift var(--drift, 17s) ease-in-out var(--drift-delay, 0s) infinite alternate;
+}
+
+/* Slow, uneven breathing of the light — never a flicker */
+@keyframes lampDrift {
+  0%   { opacity: 1; }
+  45%  { opacity: 0.9; }
+  70%  { opacity: 0.97; }
+  100% { opacity: 0.8; }
 }
 
 /* ── Backlit shelf zone ──────────────────────────────── */
@@ -66,19 +104,36 @@
   right: 0;
   height: 33%;
   background: oklch(10% 0.016 37);
-  overflow: hidden;
+  overflow: clip;
 }
 
+/* Rough plaster behind the bottles */
+.shelfZone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--tex-grain);
+  background-size: 240px;
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Backlight sits left of centre, with a weaker second source further right */
 .shelfGlow {
   position: absolute;
   inset: 0;
   background:
     radial-gradient(
-      ellipse 75% 110% at 50% 55%,
-      oklch(65% 0.13 56 / 0.28) 0%,
-      oklch(52% 0.10 52 / 0.14) 35%,
-      oklch(32% 0.06 46 / 0.06) 60%,
-      transparent 75%
+      ellipse 52% 105% at 41% 62%,
+      oklch(65% 0.13 56 / 0.30) 0%,
+      oklch(52% 0.10 52 / 0.14) 38%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 22% 70% at 77% 75%,
+      oklch(60% 0.12 54 / 0.12) 0%,
+      transparent 70%
     );
 }
 
@@ -87,33 +142,44 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: oklch(28% 0.030 40);
-  box-shadow: 0 1px 12px 2px oklch(60% 0.11 55 / 0.12);
+  height: 3px;
+  background: linear-gradient(to bottom, oklch(32% 0.032 42), oklch(20% 0.024 38));
+  box-shadow: 0 1px 10px 1px oklch(60% 0.11 55 / 0.10);
 }
 
 /* ── Bottles ─────────────────────────────────────────── */
 .bottles {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 3px;
+  left: 21%;
+  width: max-content;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
-  gap: 14px;
-  padding: 0 5%;
 }
 
+/* Heights scale with --h, set per bottle */
 .bottle {
   background: oklch(8% 0.012 37);
   flex-shrink: 0;
   position: relative;
 }
 
+/* A thin highlight where the backlight catches the glass */
+.bottle::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  bottom: 14%;
+  left: 24%;
+  width: 1.5px;
+  background: oklch(62% 0.06 60 / 0.16);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
 .bottle_tall {
   width: 16px;
-  height: 82px;
+  height: calc(82px * var(--h, 1));
   border-radius: 2px 2px 3px 3px;
 }
 .bottle_tall::before {
@@ -129,7 +195,7 @@
 
 .bottle_wine {
   width: 14px;
-  height: 95px;
+  height: calc(95px * var(--h, 1));
   border-radius: 2px 2px 4px 4px;
 }
 .bottle_wine::before {
@@ -145,7 +211,7 @@
 
 .bottle_squat {
   width: 26px;
-  height: 60px;
+  height: calc(60px * var(--h, 1));
   border-radius: 4px 4px 6px 6px;
 }
 .bottle_squat::before {
@@ -161,7 +227,7 @@
 
 .bottle_decanter {
   width: 30px;
-  height: 50px;
+  height: calc(50px * var(--h, 1));
   border-radius: 50% 50% 8px 8px / 30% 30% 8px 8px;
 }
 .bottle_decanter::before {
@@ -175,14 +241,45 @@
   border-radius: 3px 3px 0 0;
 }
 
-/* Project bottles — amber glass with a paper label, tag on hover */
+.bottle_thin {
+  width: 10px;
+  height: calc(92px * var(--h, 1));
+  border-radius: 2px;
+}
+.bottle_thin::before {
+  content: '';
+  position: absolute;
+  top: -26px;
+  left: 3px;
+  right: 3px;
+  height: 28px;
+  background: inherit;
+  border-radius: 2px 2px 0 0;
+}
+
+.bottle_flask {
+  width: 24px;
+  height: calc(46px * var(--h, 1));
+  border-radius: 3px;
+}
+.bottle_flask::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 8px;
+  right: 8px;
+  height: 11px;
+  background: inherit;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Project bottles — amber glass with a paper label */
 .bottleProject {
   border: none;
   padding: 0;
   cursor: pointer;
-  background: oklch(15% 0.035 52);
-  box-shadow: inset 0 0 6px oklch(45% 0.09 55 / 0.35);
-  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s var(--ease-out-quart);
+  background: oklch(16% 0.038 52);
+  transition: background 0.35s ease, transform 0.35s var(--ease-out-quart);
 }
 
 .bottleLabel {
@@ -192,24 +289,26 @@
   top: 38%;
   height: 22%;
   min-height: 10px;
-  background: oklch(58% 0.06 70 / 0.55);
+  background: oklch(60% 0.05 72 / 0.6);
   border-radius: 1px;
   pointer-events: none;
+  transition: background 0.35s ease;
 }
 
+/* The note that appears above a bottle: a cream paper slip, not a popover */
 .bottleTag {
   position: absolute;
-  bottom: calc(100% + 42px);
+  bottom: calc(100% + 36px);
   left: 50%;
-  transform: translate(-50%, 6px);
+  transform: translate(-50%, 4px) rotate(-1.5deg);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2px;
+  align-items: flex-start;
+  gap: 1px;
   white-space: nowrap;
-  padding: 6px 10px;
-  background: oklch(9% 0.012 37 / 0.92);
-  border: 1px solid oklch(30% 0.04 48);
+  padding: 5px 9px 6px;
+  background: oklch(84% 0.03 80);
+  box-shadow: 0 3px 8px oklch(4% 0.006 35 / 0.6);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.3s var(--ease-out-quart);
@@ -217,52 +316,146 @@
 }
 
 .bottleTagTitle {
-  font-family: var(--font-display);
-  font-size: 0.58rem;
-  font-weight: 200;
-  letter-spacing: 0.25em;
-  color: var(--amber-pale);
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: oklch(22% 0.03 40);
+  line-height: 1.2;
 }
 
 .bottleTagMeta {
   font-family: var(--font-body);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-style: italic;
-  color: var(--amber-muted);
+  color: oklch(38% 0.05 45);
+  line-height: 1.2;
 }
 
+/* Hover: the glass catches more light; no outer glow */
 .bottleProject:hover,
 .bottleProject:focus-visible {
-  background: oklch(24% 0.06 55);
-  box-shadow:
-    inset 0 0 8px oklch(70% 0.14 57 / 0.45),
-    0 0 18px 4px oklch(65% 0.14 57 / 0.30);
-  transform: translateY(-3px);
-  outline: none;
+  background: oklch(26% 0.07 56);
+  transform: translateY(-2px);
+  z-index: 4;
+}
+
+.bottleProject:hover::after,
+.bottleProject:focus-visible::after {
+  background: oklch(80% 0.08 65 / 0.45);
+}
+
+.bottleProject:hover .bottleLabel,
+.bottleProject:focus-visible .bottleLabel {
+  background: oklch(76% 0.05 75 / 0.85);
+}
+
+.bottleProject:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
+}
+
+/* Picked: the label smears sideways and dissolves into the opening panel */
+.bottlePicked .bottleLabel {
+  animation: labelDissolve 0.42s var(--ease-in) forwards;
+}
+.bottlePicked .bottleTag { opacity: 0 !important; }
+
+@keyframes labelDissolve {
+  0%   { transform: scale(1, 1); opacity: 1; filter: blur(0); }
+  100% { transform: scale(3.2, 0.35); opacity: 0; filter: blur(2px); }
 }
 
 .bottleProject:hover .bottleTag,
 .bottleProject:focus-visible .bottleTag {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 0) rotate(-1.5deg);
 }
 
 .glassesSilhouette {
   position: absolute;
-  bottom: 10px;
-  right: 8%;
+  bottom: 3px;
+  left: 9%;
   display: flex;
-  gap: 5px;
+  gap: 4px;
 }
 .glassesSilhouette::before,
 .glassesSilhouette::after {
   content: '';
   display: block;
-  width: 22px;
-  height: 28px;
+  width: 20px;
+  height: 26px;
   border-radius: 50% 50% 45% 45%;
   background: oklch(9% 0.013 37 / 0.8);
+}
+.glassesSilhouette::after {
+  height: 22px;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* Chalkboard of specials, hung slightly crooked on the back wall */
+.chalkboard {
+  position: absolute;
+  top: 13%;
+  left: 5%;
+  width: 96px;
+  height: 72px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  background: oklch(15% 0.010 160);
+  border: 3px solid oklch(21% 0.030 42);
+  box-shadow: 0 4px 12px oklch(4% 0.006 35 / 0.8), inset 0 0 14px oklch(6% 0.006 160 / 0.9);
+  transform: rotate(-1.2deg);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+/* Chalk dust */
+.chalkboard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--tex-grain);
+  background-size: 120px;
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.chalkTitle {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-style: italic;
+  color: oklch(82% 0.01 90 / 0.62);
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.chalkLine {
+  height: 1px;
+  background: oklch(80% 0.01 90 / 0.24);
+  border-radius: 1px;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+/* Hover: the chalk reads brighter, the frame catches light */
+.chalkboard:hover,
+.chalkboard:focus-visible {
+  border-color: oklch(30% 0.038 46);
+}
+.chalkboard:hover .chalkTitle,
+.chalkboard:focus-visible .chalkTitle { color: oklch(90% 0.01 90 / 0.9); }
+.chalkboard:hover .chalkLine,
+.chalkboard:focus-visible .chalkLine { background: oklch(85% 0.01 90 / 0.4); }
+
+.chalkboard:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 5px;
 }
 
 /* ── Bartender zone ──────────────────────────────────── */
@@ -273,7 +466,7 @@
   right: 0;
   height: 26%;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, oklch(50% 0.09 52 / 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 55% at 34% 0%, oklch(50% 0.09 52 / 0.09) 0%, transparent 70%),
     linear-gradient(
       to bottom,
       oklch(11% 0.017 37) 0%,
@@ -283,53 +476,106 @@
   align-items: flex-end;
 }
 
+/* Panelled wall: wood grain plus board seams at uneven intervals */
+.bartenderZone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 131px, oklch(6% 0.01 35 / 0.55) 131px 133px),
+    repeating-linear-gradient(90deg, transparent 0 197px, oklch(6% 0.01 35 / 0.35) 197px 198px),
+    var(--tex-wood-v);
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
 .bartender {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  transition: opacity 0.5s;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
 }
 
-.bartenderLeft  { left: 14%; bottom: -14vh; }
-.bartenderRight { right: 14%; bottom: -14vh; }
+/* Kon stands nearer and larger; Tsutsui is set further back */
+.bartenderLeft  { left: 20%; bottom: -15vh; }
+.bartenderRight { right: 15%; bottom: -12vh; }
 
 .bartenderImg {
-  height: 36vh;
+  height: 39vh;
   width: auto;
   display: block;
   pointer-events: none;
   user-select: none;
-  transition: filter 0.3s ease;
+  filter: brightness(1);
+  transition: filter 0.4s ease;
 }
 
-.bartender:hover .bartenderImg {
-  filter:
-    drop-shadow(0 0 14px oklch(65% 0.14 57 / 0.55))
-    drop-shadow(0 0 30px oklch(62% 0.12 55 / 0.30));
+.bartenderRight .bartenderImg {
+  height: 32vh;
+  filter: brightness(0.86) saturate(0.92);
 }
 
-.bartender:hover .bartenderName {
-  color: var(--amber-dim);
-  transition: color 0.3s ease;
-}
+/* Hover: the bartender steps into the light */
+.bartenderLeft:hover .bartenderImg,
+.bartenderLeft:focus-visible .bartenderImg { filter: brightness(1.1); }
+.bartenderRight:hover .bartenderImg,
+.bartenderRight:focus-visible .bartenderImg { filter: brightness(1) saturate(1); }
+
+/* In conversation */
+.bartenderLeft.bartenderActive .bartenderImg { filter: brightness(1.14); }
+.bartenderRight.bartenderActive .bartenderImg { filter: brightness(1.06) saturate(1); }
 
 .bartenderName {
   font-family: var(--font-display);
-  font-size: 0.50rem;
-  font-weight: 100;
+  font-size: 0.62rem;
+  font-weight: 200;
   letter-spacing: 0.4em;
-  color: var(--text-ghost);
+  padding-left: 0.4em;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+}
+
+.bartender:hover .bartenderName,
+.bartender:focus-visible .bartenderName {
+  color: var(--amber-pale);
+}
+
+.bartender:focus-visible { outline: none; }
+.bartender:focus-visible .bartenderImg {
+  outline: var(--focus-ring);
+  outline-offset: 6px;
 }
 
 .smokeLayer {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 40% 60% at 50% 80%, oklch(12% 0.015 40 / 0.3) 0%, transparent 100%);
+    radial-gradient(ellipse 40% 60% at 44% 80%, oklch(12% 0.015 40 / 0.3) 0%, transparent 100%);
   pointer-events: none;
+}
+
+/* Haze hanging in the lamp light; drifts a few percent over a minute */
+.haze {
+  position: absolute;
+  inset: -30% -10% 0 -10%;
+  background:
+    radial-gradient(ellipse 30% 40% at 30% 30%, oklch(60% 0.03 60 / 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 26% 34% at 66% 20%, oklch(60% 0.03 60 / 0.04) 0%, transparent 70%);
+  animation: hazeDrift 70s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes hazeDrift {
+  from { transform: translate3d(-3%, 0, 0); }
+  to   { transform: translate3d(3%, -2%, 0); }
 }
 
 /* ── Counter ─────────────────────────────────────────── */
@@ -358,81 +604,96 @@
     0 -2px 16px oklch(60% 0.12 55 / 0.10);
 }
 
+/* Lacquered wood grain running along the bar top */
+.counterSurface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--tex-wood-h);
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Light pools under the brighter lamps, not evenly along the bar */
 .counterReflection {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    oklch(40% 0.036 44 / 0.15) 30%,
-    oklch(38% 0.034 43 / 0.10) 50%,
-    oklch(40% 0.036 44 / 0.12) 70%,
-    transparent 100%
-  );
+  background:
+    radial-gradient(ellipse 22% 90% at 46% 0%, oklch(55% 0.08 55 / 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 16% 80% at 19% 0%, oklch(50% 0.07 55 / 0.10) 0%, transparent 70%);
 }
 
-.counterItem {
+/* Set dressing on the counter */
+.receipt {
+  position: absolute;
+  bottom: 9px;
+  width: 24px;
+  height: 9px;
+  background: linear-gradient(90deg, oklch(66% 0.02 80 / 0.5) 0 48%, oklch(58% 0.02 80 / 0.5) 48% 100%);
+  transform: translateX(-50%) rotate(-11deg) skewX(-24deg);
+  box-shadow: 0 1px 2px oklch(6% 0.008 35 / 0.5);
+}
+
+.matchbook {
+  position: absolute;
+  bottom: 6px;
+  width: 12px;
+  height: 6px;
+  background: linear-gradient(to right, oklch(30% 0.09 28) 0 74%, oklch(62% 0.03 75) 74% 100%);
+  transform: translateX(-50%) rotate(16deg) skewX(-18deg);
+  box-shadow: 0 1px 2px oklch(6% 0.008 35 / 0.6);
+}
+
+.coaster {
   position: absolute;
   bottom: 4px;
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 7px;
   border-radius: 50%;
-  background: oklch(16% 0.022 36);
-  box-shadow: 0 1px 4px oklch(8% 0.010 35 / 0.6);
+  background: oklch(15% 0.02 36);
   transform: translateX(-50%);
+  box-shadow: 0 1px 3px oklch(6% 0.008 35 / 0.6);
 }
 
-/* Chalkboard of specials hanging on the back wall */
-.chalkboard {
+.coasterEmpty {
+  width: 24px;
+  height: 6px;
+  background: oklch(17% 0.022 37);
+  box-shadow: inset 0 0 0 1px oklch(26% 0.026 40 / 0.6);
+}
+
+/* A half-finished whisky, left standing on its coaster */
+.drink {
   position: absolute;
-  top: 16%;
-  left: 6%;
-  width: 92px;
-  height: 70px;
-  padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  background: oklch(14% 0.008 160);
-  border: 3px solid oklch(20% 0.028 40);
-  box-shadow: 0 4px 12px oklch(4% 0.006 35 / 0.8), inset 0 0 14px oklch(6% 0.006 160 / 0.9);
-  cursor: pointer;
-  transition: box-shadow 0.3s ease;
+  bottom: 6px;
+  width: 17px;
+  height: 18px;
+  transform: translateX(-50%);
+  background: oklch(32% 0.02 50 / 0.16);
+  border: 1px solid oklch(58% 0.02 60 / 0.32);
+  border-top-color: oklch(70% 0.02 60 / 0.4);
+  border-radius: 1px 1px 3px 3px;
+  overflow: hidden;
 }
 
-.chalkTitle {
-  font-family: var(--font-body);
-  font-size: 0.62rem;
-  font-style: italic;
-  color: oklch(78% 0.01 90 / 0.55);
-  letter-spacing: 0.08em;
-  pointer-events: none;
+.drinkLiquid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, oklch(62% 0.13 62 / 0.65), oklch(46% 0.11 55 / 0.7));
 }
 
-.chalkLine {
-  height: 1px;
-  background: oklch(78% 0.01 90 / 0.22);
-  border-radius: 1px;
-  pointer-events: none;
-}
-
-.chalkboard:hover,
-.chalkboard:focus-visible {
-  outline: none;
-  box-shadow:
-    0 4px 12px oklch(4% 0.006 35 / 0.8),
-    0 0 22px 4px oklch(65% 0.14 57 / 0.22),
-    inset 0 0 14px oklch(6% 0.006 160 / 0.9);
-}
-.chalkboard:hover .chalkTitle { color: oklch(85% 0.01 90 / 0.8); }
-
-.counterGlass {
-  width: 20px;
-  height: 22px;
-  border-radius: 40% 40% 20% 20%;
-  background: oklch(14% 0.019 37 / 0.7);
-  border-top: 1px solid oklch(35% 0.032 42 / 0.4);
+.drink::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  bottom: 3px;
+  left: 3px;
+  width: 1px;
+  background: oklch(85% 0.02 70 / 0.35);
 }
 
 .counterFace {
@@ -446,6 +707,17 @@
     oklch(18% 0.024 36) 0%,
     oklch(14% 0.020 35) 100%
   );
+}
+
+.counterFace::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--tex-wood-h);
+  background-size: 900px 120px;
+  opacity: 0.3;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
 }
 
 .counterEdge {
@@ -466,7 +738,18 @@
   right: 0;
   bottom: 0;
   background: oklch(8% 0.012 35);
-  overflow: hidden;
+  overflow: clip;
+}
+
+.floor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--tex-wood-h);
+  background-size: 1200px 90px;
+  opacity: 0.14;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
 }
 
 .floorReflection {
@@ -483,17 +766,51 @@
   filter: blur(3px);
 }
 
+/* The polished floor reflects the room, but not quite: only Kon is there,
+   and it shows a fourth lamp that doesn't hang from the ceiling */
+.floorMirror {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+}
+
+.mirrorKon {
+  position: absolute;
+  top: 2px;
+  left: 20%;
+  height: 39vh;
+  width: auto;
+  /* flipped in place, so it hangs down from the floor line */
+  transform: scaleY(-1);
+  opacity: 0.15;
+  filter: blur(1.4px);
+  user-select: none;
+}
+
+.mirrorLamp {
+  position: absolute;
+  top: 18%;
+  width: 34px;
+  height: 7px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, oklch(72% 0.14 58 / calc(0.32 * var(--lamp, 1))) 0%, transparent 70%);
+  filter: blur(1px);
+}
+
 .disclaimer {
   position: absolute;
-  bottom: 10px;
+  bottom: 12px;
   left: 0;
   right: 0;
   text-align: center;
   font-family: var(--font-display);
-  font-size: 0.42rem;
-  font-weight: 100;
-  letter-spacing: 0.35em;
-  color: var(--amber-bright);
+  font-size: 0.56rem;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: var(--amber-muted);
   text-transform: uppercase;
   pointer-events: none;
 }
@@ -502,16 +819,21 @@
 .recordPlayer {
   position: absolute;
   bottom: 0;
-  left: 3%;
+  right: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  padding: 4px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
-  transition: opacity 0.4s;
 }
 
 .recordBody {
+  display: block;
   width: 62px;
   height: 44px;
   background: linear-gradient(160deg, oklch(18% 0.022 36) 0%, oklch(12% 0.016 34) 100%);
@@ -566,6 +888,11 @@
   animation-play-state: paused !important;
 }
 
+/* Off: the arm is lifted clear of the record */
+.tonearmLifted {
+  transform: rotate(-64deg);
+}
+
 @keyframes vinylSpin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
@@ -581,6 +908,7 @@
   transform-origin: right center;
   transform: rotate(-38deg);
   border-radius: 1px;
+  transition: transform 0.4s var(--ease-out-quart);
 }
 
 .tonearm::after {
@@ -608,33 +936,56 @@
 
 .recordPlayerLabel {
   font-family: var(--font-display);
-  font-size: 0.42rem;
-  font-weight: 100;
-  letter-spacing: 0.35em;
-  color: var(--text-ghost);
+  font-size: 0.58rem;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+  color: var(--text-muted);
   text-transform: uppercase;
   transition: color 0.3s ease;
 }
 
-/* Hover — matches bartender glow style */
-.recordPlayer:hover .recordBody {
-  box-shadow:
-    0 0 22px 8px oklch(65% 0.14 57 / 0.32),
-    3px -2px 16px oklch(65% 0.13 55 / 0.22),
-    inset 0 1px 0 oklch(30% 0.028 40 / 0.25);
+/* Hover: the arm moves a little toward where a click will put it */
+.recordPlayer:hover .tonearm,
+.recordPlayer:focus-visible .tonearm {
+  transform: rotate(-46deg);
+}
+.recordPlayer:hover .tonearmLifted,
+.recordPlayer:focus-visible .tonearmLifted {
+  transform: rotate(-52deg);
 }
 
-.recordPlayer:hover .vinyl {
+.recordPlayer:hover .recordBody,
+.recordPlayer:focus-visible .recordBody {
   box-shadow:
-    inset 0 0 0 4px oklch(8% 0.010 34),
-    inset 0 0 0 6px oklch(14% 0.016 36 / 0.5),
-    inset 0 0 0 9px oklch(8% 0.010 34),
-    inset 0 0 0 11px oklch(14% 0.016 36 / 0.35),
-    0 0 12px 4px oklch(62% 0.12 55 / 0.28);
+    0 3px 10px oklch(4% 0.006 35 / 0.85),
+    inset 0 1px 0 oklch(48% 0.04 50 / 0.5);
 }
 
-.recordPlayer:hover .recordPlayerLabel {
-  color: var(--amber-dim);
+.recordPlayer:hover .recordPlayerLabel,
+.recordPlayer:focus-visible .recordPlayerLabel {
+  color: var(--amber-pale);
+}
+
+.recordPlayer:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 5px;
+}
+
+/* Sleeve leaning against the back of the counter */
+.recordSleeve {
+  position: absolute;
+  bottom: 0;
+  right: calc(5% + 70px);
+  width: 38px;
+  height: 38px;
+  background:
+    radial-gradient(circle at 62% 42%, oklch(34% 0.06 35) 0 22%, transparent 23%),
+    linear-gradient(150deg, oklch(22% 0.04 30) 0%, oklch(15% 0.03 28) 100%);
+  transform: rotate(-8deg);
+  transform-origin: bottom left;
+  box-shadow: 2px 2px 8px oklch(4% 0.006 35 / 0.8);
+  opacity: 0.9;
 }
 
 /* ── Vignette ─────────────────────────────────────────── */
@@ -642,7 +993,7 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 100% 100% at 50% 50%,
+    ellipse 100% 100% at 46% 50%,
     transparent 45%,
     oklch(5% 0.008 37 / 0.75) 100%
   );
@@ -651,15 +1002,31 @@
 }
 
 @media (max-width: 768px) {
-  .bartenderLeft  { left: 2%; }
+  .bartenderLeft  { left: 3%; }
+  .mirrorKon      { left: 3%; height: 27vh; }
   .bartenderRight { right: 2%; }
-  .bartenderImg   { height: 24vh; }
-  .pendantGlow { width: 50px; }
-  .bottles { gap: 8px; padding: 0 2%; }
-  .bottle_tall { height: 64px; }
-  .bottle_wine { height: 74px; }
-  .recordPlayer {
-    left: 50%;
-    transform: translateX(-50%);
+  .bartenderImg   { height: 27vh; }
+  .bartenderRight .bartenderImg { height: 23vh; }
+  .pendantGlow { width: 70px; }
+  .bottles {
+    left: 3%;
+    transform: scale(0.78);
+    transform-origin: bottom left;
   }
+  .chalkboard { top: 18%; left: auto; right: 5%; transform: rotate(1deg) scale(0.9); }
+  .glassesSilhouette { display: none; }
+  /* No room between the bartenders on a phone: the player sits out on the counter */
+  .recordPlayer { right: auto; left: 50%; bottom: -7vh; transform: translateX(-50%); z-index: 3; }
+  .recordSleeve,
+  .coasterEmpty { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pendantBulb,
+  .pendantGlow,
+  .haze,
+  .vinyl { animation: none; }
+  .bar,
+  .lightShift { transition: none; }
+  .barReceded { transform: none; }
 }

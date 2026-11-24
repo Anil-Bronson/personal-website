@@ -29,7 +29,7 @@ export default function ChatInterface({ activeBartender, onBartenderChange, auto
   const [streaming, setStreaming] = useState(false);
   const [streamContent, setStreamContent] = useState('');
   const [thinkingPhrase, setThinkingPhrase] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(!!autoOpen);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
 
@@ -39,12 +39,11 @@ export default function ChatInterface({ activeBartender, onBartenderChange, auto
     }
   }, [messages, streamContent, streaming]);
 
+  // Opened as a modal: start with the message area showing and the input focused
   useEffect(() => {
-    if (autoOpen && !isOpen) {
-      setIsOpen(true);
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!autoOpen) return;
+    const t = setTimeout(() => inputRef.current?.focus(), 100);
+    return () => clearTimeout(t);
   }, [autoOpen]);
 
   const openChat = () => {

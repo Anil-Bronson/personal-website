@@ -64,55 +64,112 @@ export const education = [
   },
 ];
 
-export const projects = [
+export type ProjectVisual = 'homelab-diagram' | 'caption-diagram' | 'spend-diagram' | 'golden-gaming-logo';
+// Each project gets its own composition in the Projects panel
+export type ProjectLayout = 'wide' | 'split' | 'inline' | 'quote' | 'artifact';
+
+export type Project = {
+  title: string;
+  category: string;
+  period: string;
+  lede: string;
+  description: string;
+  detail: { label: string; text: string };
+  tech: string[];
+  stat: string;
+  layout: ProjectLayout;
+  visual?: ProjectVisual;
+  github?: string;
+};
+
+// Visuals are diagrams drawn from the facts below, or artwork taken from the
+// project's own repo. None of them are product screenshots.
+// TODO(owner): real screenshots would strengthen Spend Tracker (demo data only),
+// Conscious Connections and Golden Gaming.
+export const projects: Project[] = [
   {
     title: 'Self-Hosted Home Lab',
     category: 'Self-Hosted Infrastructure',
     period: '2026',
+    lede: 'One small server at home running the 25+ services I rely on, set up to stay up and to tell me when something is going wrong.',
     description:
       'Debian 13 server running 25+ Docker Compose services over a 5 TB mergerfs pool, behind a Caddy reverse proxy with automatic Let\'s Encrypt TLS (DNS-01) and zero-trust remote access over Tailscale instead of open ports. A reliability layer: custom Python SMART disk-health service, nightly encrypted restic backups verified with test restores, Gatus uptime and certificate checks, and udev/systemd auto-recovery when the storage enclosure comes up late, all alerting through a self-hosted ntfy server with per-service scoped tokens. Also runs custom apps including a FastAPI personal finance tracker with LLM transaction categorization and a claude agent running 24/7 for active monitoring of the home lab.',
+    detail: {
+      label: 'The fix I\'m proudest of',
+      text: 'The external drive enclosure sometimes powers on after the server. A udev rule and a systemd unit now remount the storage pool when it appears and restart only the containers that depend on it.',
+    },
     tech: ['Debian', 'Docker Compose', 'Caddy', 'Tailscale', 'Python', 'FastAPI', 'restic', 'systemd'],
     stat: '25+ containers',
+    layout: 'wide',
+    visual: 'homelab-diagram',
   },
   {
     title: 'Local AI Caption Engine',
     category: 'Multi-Model AI Pipeline',
     period: '2024',
+    lede: 'Writes captions for uploaded images using only locally hosted models, by chaining an image-recognition model into a language model.',
     description:
       'Built a multi-model inference pipeline using locally hosted LLMs. An image-recognition model analyses uploaded images and generates structured scene descriptions, which are passed as context to a second language model that produces caption output. A Node.js proxy server abstracts both models behind a unified REST API, decoupling the client from the underlying inference layer.',
+    detail: {
+      label: 'Design decision',
+      text: 'The browser never talks to either model. A Node.js proxy puts both behind one REST API, so the client doesn\'t change when the inference layer does.',
+    },
     tech: ['JavaScript', 'Node.js', 'Python', 'REST API', 'HTML', 'CSS'],
     stat: '2-model pipeline',
-    github: 'https://github.com/Jayden-Hutchinson/4537-assignment',
+    layout: 'split',
+    visual: 'caption-diagram',
+    // TODO(owner): https://github.com/Jayden-Hutchinson/4537-assignment returns 404
+    // (private or deleted). Restore `github` here once the repo is public again.
   },
   {
     title: 'Spend Tracker',
     category: 'Full-Stack Finance App',
     period: '2026',
+    lede: 'A self-hosted finance app that turns raw bank CSV exports into categorized spending, budgets and weekly summaries.',
     description:
       'Self-hosted personal finance app built with FastAPI and SQLite. Imports bank CSVs with de-duplication and categorizes transactions in tiers: user rules first, then the OpenAI API, with Claude as a fallback. Tracks split bills and IOUs, budgets, net worth and income, finds recurring subscriptions, and sends weekly push summaries. Runs on my home lab with nightly backups, and auth checks trusted devices behind a shared secret set by the reverse proxy.',
+    detail: {
+      label: 'How categorizing works',
+      text: 'Cheapest first: my own rules handle the transactions they recognise, the OpenAI API takes what\'s left, and Claude is the fallback.',
+    },
     tech: ['Python', 'FastAPI', 'SQLite', 'OpenAI API', 'Claude API', 'Docker'],
     stat: '~2,600 lines',
+    layout: 'inline',
+    visual: 'spend-diagram',
     github: 'https://github.com/Anil-Bronson/finance-dashboard',
   },
   {
     title: 'Conscious Connections',
     category: 'Full-Stack AI Application',
     period: 'May 2025',
+    lede: 'An AI-driven dating app with compatibility matching, personalized coaching threads and real-time chat.',
     description:
       'AI-driven dating app with compatibility algorithms and personalized coaching threads. Engineered WebSocket-based real-time chat achieving sub-50ms latency under load testing. Tested across 100+ simulated user sessions.',
+    detail: {
+      label: 'Under load',
+      text: 'Chat runs over WebSockets and stayed under 50 ms latency in load testing across 100+ simulated user sessions.',
+    },
     tech: ['Node.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'WebSocket', 'OpenAI API'],
     stat: '<50ms latency',
+    layout: 'quote',
   },
   {
     title: 'Golden Gaming',
     category: 'Accessibility-First Platform',
     period: 'May 2024',
+    lede: 'A web gaming platform for seniors, built around large, simple, readable interfaces.',
     description:
       'Web gaming platform designed specifically for seniors. Large-format UI and simplified navigation validated through hands-on accessibility and usability testing. JavaScript-based interactive games with progress tracking.',
+    detail: {
+      label: 'Designed for the audience',
+      text: 'Large-format UI and simplified navigation, checked through hands-on accessibility and usability testing rather than assumed.',
+    },
     tech: ['JavaScript', 'HTML', 'CSS'],
     stat: '+35% engagement',
+    layout: 'artifact',
+    visual: 'golden-gaming-logo',
     github: 'https://github.com/SweptShadow/2800_202410_BBY19',
-  }
+  },
 ];
 
 export const bartenderThinking = {

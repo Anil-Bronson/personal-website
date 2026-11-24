@@ -58,13 +58,18 @@
   border: 1px solid oklch(20% 0.022 38);
   color: var(--text-muted);
   font-family: var(--font-display);
-  font-size: 0.6rem;
-  letter-spacing: 0.4em;
-  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.66rem;
+  letter-spacing: 0.35em;
+  padding: var(--space-sm) var(--space-md);
   cursor: pointer;
   text-transform: uppercase;
   transition: color 0.3s, border-color 0.3s;
   flex-shrink: 0;
+}
+
+.closeBtn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
 }
 
 .closeBtn:hover {
@@ -87,7 +92,7 @@
 /* ── Shared section styles ─────────────────────────────── */
 .sectionLabel {
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.66rem;
   font-weight: 200;
   letter-spacing: 0.6em;
   color: var(--amber-dim);
@@ -111,7 +116,7 @@
 
 .chip {
   font-family: var(--font-display);
-  font-size: 0.60rem;
+  font-size: 0.66rem;
   font-weight: 200;
   letter-spacing: 0.2em;
   color: var(--text-muted);
@@ -120,20 +125,13 @@
   text-transform: uppercase;
 }
 
-/* ── Project card ─────────────────────────────────────── */
-.card {
-  padding: var(--space-xl);
-  background: oklch(12% 0.018 36);
-  margin-bottom: var(--space-md);
-  position: relative;
-}
-
+/* Shared title/category styles (used by the drink menu) */
 .cardCategory {
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.64rem;
   font-weight: 200;
-  letter-spacing: 0.5em;
-  color: var(--amber-dim);
+  letter-spacing: 0.4em;
+  color: var(--amber-muted);
   text-transform: uppercase;
   margin-bottom: var(--space-sm);
 }
@@ -147,30 +145,206 @@
   margin-bottom: var(--space-sm);
 }
 
-.cardDesc {
-  font-family: var(--font-body);
-  font-size: 0.90rem;
-  font-weight: 300;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  margin-bottom: var(--space-md);
-  max-width: 58ch;
+/* ── Projects: editorial entries, one composition per project ── */
+.panelWide {
+  width: min(820px, 100%);
 }
 
-.cardStat {
+.project {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg) var(--space-2xl);
+  padding: var(--space-3xl) 0;
+  border-top: 1px solid oklch(18% 0.022 37);
+  scroll-margin-top: var(--space-md);
+}
+
+.project:first-child {
+  border-top: none;
+  padding-top: var(--space-md);
+}
+
+/* Opened from a bottle: a quiet amber rule in the margin */
+.projectFocused::before {
+  content: '';
   position: absolute;
-  top: var(--space-xl);
-  right: var(--space-xl);
+  left: calc(-1 * var(--space-lg));
+  top: var(--space-3xl);
+  bottom: var(--space-3xl);
+  width: 2px;
+  background: var(--amber-muted);
+}
+.project:first-child.projectFocused::before { top: var(--space-md); }
+
+.projectHead   { grid-area: head; }
+.projectVisual { grid-area: visual; min-width: 0; }
+.projectText   { grid-area: text; }
+.projectDetail { grid-area: detail; }
+.projectFoot   { grid-area: foot; }
+
+.projectMeta {
+  display: flex;
+  gap: var(--space-md);
   font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 100;
-  letter-spacing: 0.1em;
+  font-size: 0.64rem;
+  font-weight: 200;
+  letter-spacing: 0.35em;
   color: var(--amber-muted);
+  text-transform: uppercase;
 }
 
-/* Focused card when opened from a shelf bottle */
-.cardFocused {
-  box-shadow: inset 0 0 0 1px oklch(45% 0.09 54 / 0.7), 0 0 24px oklch(60% 0.12 55 / 0.12);
+.projectIndex {
+  color: var(--text-ghost);
+  letter-spacing: 0.1em;
+}
+
+.projectTitle {
+  margin-top: var(--space-sm);
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  font-weight: 200;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.projectLede {
+  margin-top: var(--space-md);
+  max-width: 46ch;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.projectText {
+  max-width: 60ch;
+  font-family: var(--font-body);
+  font-size: 0.93rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: oklch(68% 0.016 52);
+}
+
+.projectDetail {
+  align-self: start;
+  max-width: 54ch;
+  padding-left: var(--space-md);
+  border-left: 1px solid var(--amber-dim);
+}
+
+.detailLabel {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 200;
+  letter-spacing: 0.32em;
+  color: var(--amber-muted);
+  text-transform: uppercase;
+}
+
+.detailText {
+  margin-top: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: 0.97rem;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.projectFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-xs) var(--space-lg);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+}
+
+.projectStat {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--amber-pale);
+}
+
+.projectTech {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.projectLink {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  color: var(--amber-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.25s;
+}
+
+.projectLink:hover { color: var(--amber-pale); }
+.projectLink:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
+}
+
+@media (min-width: 769px) {
+  /* Home Lab: the diagram spans the column, the story and the detail sit side by side */
+  .layout_wide {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    grid-template-areas: "head head" "visual visual" "text detail" "foot foot";
+  }
+
+  /* Caption Engine: a tall pipeline diagram runs down the right */
+  .layout_split {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-areas: "head visual" "text visual" "detail visual" "foot foot";
+  }
+  .layout_split .projectVisual { align-self: start; padding-top: var(--space-xl); }
+
+  /* Spend Tracker: read first, then the flow, offset into the right margin */
+  .layout_inline {
+    grid-template-areas: "head" "text" "visual" "detail" "foot";
+  }
+  .layout_inline .projectVisual { margin-left: 14%; }
+  .layout_inline .projectDetail { margin-left: 14%; max-width: 46ch; }
+
+  /* Conscious Connections: no visual, so the key result leads as a pull quote */
+  .layout_quote {
+    grid-template-areas: "head" "detail" "text" "foot";
+  }
+
+  /* Golden Gaming: the project's own logo pinned beside the heading */
+  .layout_artifact {
+    grid-template-columns: 200px minmax(0, 1fr);
+    grid-template-areas: "visual head" "visual text" "detail detail" "foot foot";
+  }
+  .layout_artifact .projectVisual { padding-top: var(--space-sm); }
+}
+
+@media (max-width: 768px) {
+  .project { grid-template-areas: "head" "visual" "text" "detail" "foot"; }
+  .layout_quote { grid-template-areas: "head" "detail" "text" "foot"; }
+  .projectFocused::before { left: calc(-1 * var(--space-md)); }
+  .projectLink { margin-left: 0; }
+}
+
+/* Pull quote treatment, all sizes */
+.layout_quote .projectDetail {
+  border-left: none;
+  padding-left: 0;
+}
+.layout_quote .detailText {
+  margin-top: var(--space-sm);
+  max-width: 28ch;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  color: var(--amber-pale);
 }
 
 /* ── Drink menu ───────────────────────────────────────── */
@@ -273,13 +447,7 @@
   .panelBody {
     padding: var(--space-lg);
   }
-  .cardStat {
-    position: static;
-    display: block;
-    margin-bottom: var(--space-sm);
-  }
   .cardTitle {
     font-size: 1.1rem;
-    padding-right: 0;
   }
 }

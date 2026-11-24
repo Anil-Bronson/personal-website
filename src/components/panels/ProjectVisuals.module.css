@@ -1,0 +1,93 @@
+.figure {
+  margin: 0;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.box {
+  fill: oklch(13% 0.018 37);
+  stroke: oklch(34% 0.04 48);
+  stroke-width: 1;
+}
+
+.boxStrong {
+  fill: oklch(17% 0.03 50);
+  stroke: var(--amber-muted);
+  stroke-width: 1;
+}
+
+.group {
+  fill: none;
+  stroke: oklch(28% 0.03 44);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.groupLabel {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-style: italic;
+  fill: var(--amber-muted);
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--text-primary);
+}
+
+.sub {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-style: italic;
+  fill: var(--text-muted);
+}
+
+.note {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-style: italic;
+  fill: var(--amber-muted);
+}
+
+.line {
+  fill: none;
+  stroke: oklch(42% 0.05 52);
+  stroke-width: 1;
+}
+
+.arrowHead {
+  fill: oklch(48% 0.06 52);
+}
+
+.caption {
+  margin-top: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-style: italic;
+  color: var(--text-ghost);
+}
+
+/* Real artwork from a repo, pinned to the page like a print */
+.artifact {
+  margin: 0;
+  width: 100%;
+  max-width: 190px;
+  transform: rotate(-2.5deg);
+}
+
+.artifact img {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 12px;
+  background: oklch(86% 0.02 80);
+  box-shadow: 0 6px 18px oklch(4% 0.006 35 / 0.7);
+  filter: saturate(0.75);
+}

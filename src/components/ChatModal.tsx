@@ -34,10 +34,13 @@ export default function ChatModal({ open, activeBartender, onBartenderChange, on
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
         >
-          <div className={styles.backdrop} onClick={onClose} />
+          <div className={styles.backdrop} onClick={onClose} aria-hidden="true" />
 
           <motion.div
             className={styles.modal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="chat-title"
             initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
@@ -45,7 +48,7 @@ export default function ChatModal({ open, activeBartender, onBartenderChange, on
           >
             <div className={styles.header}>
               <div>
-                <div className={styles.headerName}>{BARTENDER_TITLES[activeBartender].name}</div>
+                <h2 id="chat-title" className={styles.headerName}>{BARTENDER_TITLES[activeBartender].name}</h2>
                 <div className={styles.headerSub}>{BARTENDER_TITLES[activeBartender].sub}</div>
               </div>
               <button className={styles.closeBtn} onClick={onClose} aria-label="Close chat">
